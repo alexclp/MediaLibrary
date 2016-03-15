@@ -10,22 +10,31 @@ public class Film extends Item {
 
     public Film(String fileName) {
         super(fileName);
-        System.out.println(fileName);
         extractTitle();
         extractQuality();
         extractYear();
     }
 
     private void extractTitle() {
-//        ^(?<name>[^\(]+)\s+\(
         Pattern firstCasePattern = Pattern.compile("^(?<name>[^\\(]+)\\s+\\(");
         Matcher firstCaseMatcher = firstCasePattern.matcher("The Genius Skater Of Paris (1990) (HD, 720p).");
-        Pattern finalTitlePattern = Pattern.compile("\\D+\\s");
+
+        Pattern secondCasePattern = Pattern.compile("^\\([^\\)]+\\)\\s+(?<name>[^\\(]+)\\s+\\(");
+        Matcher secondCaseMatcher = secondCasePattern.matcher(" The Genius Skater Of Paris (HD, 720p).");
+
+        Pattern thirdCasePattern = Pattern.compile("^\\([^\\)]+\\)\\s+\\([^\\)]+\\)\\s+(?<name>[^(\\.]+)");
+        Matcher thirdCaseMatcher = thirdCasePattern.matcher("(HD, 720p) (1990) The Genius Skater Of Paris.");
 
         if (firstCaseMatcher.find()) {
-            Matcher finalMatcher = finalTitlePattern.matcher(firstCaseMatcher.group("name"));
-            System.out.println(firstCaseMatcher.group("name"));
-            title = finalMatcher.group("name");
+            title = firstCaseMatcher.group("name");
+        }
+
+        if (secondCaseMatcher.find()) {
+            title = secondCaseMatcher.group("name");
+        }
+
+        if (thirdCaseMatcher.find()) {
+            title = thirdCaseMatcher.group("name");
         }
 
         System.out.println(title);
