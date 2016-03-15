@@ -10,6 +10,7 @@ import java.awt.*;
 public class ItemPanel extends JPanel {
 
     private JLabel image;
+    private JLabel text;
     private JLabel itemName;
     private JLabel itemsSubName;
 
@@ -19,7 +20,7 @@ public class ItemPanel extends JPanel {
         itemName.setHorizontalAlignment(JLabel.CENTER);
         itemsSubName = new JLabel(subName);
         itemsSubName.setHorizontalAlignment(JLabel.CENTER);
-        setLayout(new GridLayout(3, 1, 10, 10));
+        setLayout(new BorderLayout());
         configurePanel();
     }
 

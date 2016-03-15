@@ -1,5 +1,6 @@
 package alexmihnea.model;
 
+import javax.swing.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,8 +9,8 @@ public class Film extends Item {
     private String quality;
     private String title;
 
-    public Film(String fileName) {
-        super(fileName);
+    public Film(String fileName,JLabel image) {
+        super(fileName,image);
         extractTitle();
         extractQuality();
         extractYear();

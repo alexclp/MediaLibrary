@@ -3,7 +3,10 @@ package alexmihnea.controller;
 import alexmihnea.generator.Media;
 import alexmihnea.generator.MediaGenerator;
 import alexmihnea.model.Film;
+import alexmihnea.model.Item;
+import alexmihnea.model.Music;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,6 +24,8 @@ public class Controller {
 
         for (Media media : mediaArrayList) {
             String fileName = media.getName();
+            JLabel fileImage = media.getImage();
+
             Pattern extensionPattern = Pattern.compile("\\.(?<extension>[^\\d]+$)");
             Matcher extensionMatcher = extensionPattern.matcher(fileName);
 
@@ -38,13 +43,15 @@ public class Controller {
 
                 if (typeOfFile.equals("Film")) {
 
-                    Film film = new Film(fileTitle);
-                    System.out.println(film);
+                    Film film = new Film(fileTitle,media.getImage());
 
                 } else if (typeOfFile.equals("Music")) {
 
+                    Music music = new Music(fileTitle,media.getImage());
+
                 } else {
 
+                    Item item = new Item(fileName,media.getImage());
                 }
             }
         }
