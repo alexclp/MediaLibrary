@@ -17,13 +17,13 @@ public class Film extends Item {
 
     private void extractTitle() {
         Pattern firstCasePattern = Pattern.compile("^(?<name>[^\\(]+)\\s+\\(");
-        Matcher firstCaseMatcher = firstCasePattern.matcher("The Genius Skater Of Paris (1990) (HD, 720p).");
+        Matcher firstCaseMatcher = firstCasePattern.matcher(fileName);
 
         Pattern secondCasePattern = Pattern.compile("^\\([^\\)]+\\)\\s+(?<name>[^\\(]+)\\s+\\(");
-        Matcher secondCaseMatcher = secondCasePattern.matcher(" The Genius Skater Of Paris (HD, 720p).");
+        Matcher secondCaseMatcher = secondCasePattern.matcher(fileName);
 
         Pattern thirdCasePattern = Pattern.compile("^\\([^\\)]+\\)\\s+\\([^\\)]+\\)\\s+(?<name>[^(\\.]+)");
-        Matcher thirdCaseMatcher = thirdCasePattern.matcher("(HD, 720p) (1990) The Genius Skater Of Paris.");
+        Matcher thirdCaseMatcher = thirdCasePattern.matcher(fileName);
 
         if (firstCaseMatcher.find()) {
             title = firstCaseMatcher.group("name");
@@ -36,8 +36,6 @@ public class Film extends Item {
         if (thirdCaseMatcher.find()) {
             title = thirdCaseMatcher.group("name");
         }
-
-        System.out.println(title);
     }
 
 
@@ -75,5 +73,14 @@ public class Film extends Item {
 
     public String getTitle() {
         return title;
+    }
+
+    @Override
+    public String toString() {
+        return "Film{" +
+                "year='" + year + '\'' +
+                ", quality='" + quality + '\'' +
+                ", title='" + title + '\'' +
+                '}';
     }
 }

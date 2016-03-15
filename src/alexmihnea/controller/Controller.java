@@ -10,38 +10,81 @@ import java.util.regex.Pattern;
 
 public class Controller {
     ArrayList<Media> mediaArrayList;
+
     public Controller() {
         mediaArrayList = MediaGenerator.getMedia("/resources/film");
-        //test();
-        Film film = new Film("");
+        parseData();
     }
 
 
-    public void test(){
-        for(Media media:mediaArrayList){
+    public void parseData() {
+
+        for (Media media : mediaArrayList) {
             String fileName = media.getName();
-            System.out.println(fileName);
-            Pattern iExtension = Pattern.compile("(\\.\\D{3,4})");
-            Matcher matcher = iExtension.matcher(fileName);
-            if (matcher.find()) {
-                //System.out.println(matcher.group(0));
-                Pattern extension = Pattern.compile("(\\w{3,4})");
-                Matcher matcher1 = extension.matcher(matcher.group(0));
-                if (matcher1.find()) {
-                    if(matcher1.group(0).equals("flv") ||
-                            matcher1.group(0).equals("gif") ||
-                            matcher1.group(0).equals("mkv") ||
-                            matcher1.group(0).equals("mpeg") ||
-                            matcher1.group(0).equals("mpg") ||
-                            matcher1.group(0).equals("mov")) {
-                        Pattern pattern = Pattern.compile(".*\\.");
-                        Matcher matcher2 = pattern.matcher(fileName);
-                        if(matcher2.find()) {
-                            Film film = new Film(matcher2.group(0));
-                        }
-                    }
+            Pattern extensionPattern = Pattern.compile("\\.(?<extension>[^\\d]+$)");
+            Matcher extensionMatcher = extensionPattern.matcher(fileName);
+
+            if (extensionMatcher.find()) {
+
+                String fileTitle = "";
+                String typeOfFile = checkTypeOfFile(extensionMatcher.group("extension"));
+
+                Pattern filePattern = Pattern.compile("^(?<name>[^\\.]+\\.)[^\\d]+$");
+                Matcher fileMatcher = filePattern.matcher(fileName);
+
+                if (fileMatcher.find()) {
+                    fileTitle = fileMatcher.group("name");
+                }
+
+                if (typeOfFile.equals("Film")) {
+
+                    Film film = new Film(fileTitle);
+                    System.out.println(film);
+
+                } else if (typeOfFile.equals("Music")) {
+
+                } else {
+
                 }
             }
         }
+    }
+
+    private String checkTypeOfFile(String extension) {
+        if (isFilm(extension)) {
+            return "Film";
+        } else if (isMusic(extension)) {
+            return "Music";
+        } else {
+            return "Unclassified";
+        }
+    }
+
+    private boolean isFilm(String extension) {
+
+        if (extension.equals("mpeg") ||
+                extension.equals("mpg") ||
+                extension.equals("mov") ||
+                extension.equals("mkv") ||
+                extension.equals("flv") ||
+                extension.equals("gif")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isMusic(String extension) {
+
+        if (extension.equals("aiff") ||
+                extension.equals("aax") ||
+                extension.equals("aac") ||
+                extension.equals("oog") ||
+                extension.equals("wav") ||
+                extension.equals("wma")) {
+            return true;
+        }
+
+        return false;
     }
 }
