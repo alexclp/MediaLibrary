@@ -20,5 +20,15 @@ public class LibraryFrame extends JFrame {
         setSize(500, 500);
     }
 
+    public CategoryPanel getFilmPanel() {
+        return filmPanel;
+    }
 
+    public CategoryPanel getMusicPanel() {
+        return musicPanel;
+    }
+
+    public CategoryPanel getUnknownPanel() {
+        return unknownPanel;
+    }
 }

@@ -12,4 +12,12 @@ public class Item {
         this.fileName = fileName;
         this.image = image;
     }
+
+    public JLabel getImage() {
+        return image;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
 }
