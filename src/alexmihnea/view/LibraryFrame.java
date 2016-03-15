@@ -10,14 +10,16 @@ public class LibraryFrame extends JFrame {
     private CategoryPanel unknownPanel;
 
     public LibraryFrame(int nrOfFilms, int nrOfMusic, int nrOfUnknown) {
-        filmPanel = new CategoryPanel("Film", nrOfFilms);
-        musicPanel = new CategoryPanel("Music", nrOfMusic);
-        unknownPanel = new CategoryPanel("Unclassified", nrOfUnknown);
+        filmPanel = new CategoryPanel("Film", nrOfFilms,true);
+        musicPanel = new CategoryPanel("Music", nrOfMusic,true);
+        unknownPanel = new CategoryPanel("Unclassified", nrOfUnknown,false);
         setLayout(new GridLayout(3, 1, 10, 10));
         add(filmPanel);
         add(musicPanel);
         add(unknownPanel);
         setSize(500, 500);
+        filmPanel.sortFilm();
+        musicPanel.sortMusic();
     }
 
     public CategoryPanel getFilmPanel() {
