@@ -4,9 +4,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-/**
- * Created by alexclp on 08/03/2016.
- */
 public class ItemPanel extends JPanel {
 
     private JLabel image;

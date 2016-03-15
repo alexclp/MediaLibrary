@@ -43,15 +43,15 @@ public class Controller {
 
                 if (typeOfFile.equals("Film")) {
 
-                    Film film = new Film(fileTitle,media.getImage());
+                    Film film = new Film(fileTitle, media.getImage());
 
                 } else if (typeOfFile.equals("Music")) {
 
-                    Music music = new Music(fileTitle,media.getImage());
+                    Music music = new Music(fileTitle, media.getImage());
 
                 } else {
 
-                    Item item = new Item(fileName,media.getImage());
+                    Item item = new Item(fileName, media.getImage());
                 }
             }
         }

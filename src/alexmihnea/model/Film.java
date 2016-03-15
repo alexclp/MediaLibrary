@@ -9,8 +9,8 @@ public class Film extends Item {
     private String quality;
     private String title;
 
-    public Film(String fileName,JLabel image) {
-        super(fileName,image);
+    public Film(String fileName, JLabel image) {
+        super(fileName, image);
         extractTitle();
         extractQuality();
         extractYear();
@@ -78,10 +78,6 @@ public class Film extends Item {
 
     @Override
     public String toString() {
-        return "Film{" +
-                "year='" + year + '\'' +
-                ", quality='" + quality + '\'' +
-                ", title='" + title + '\'' +
-                '}';
+        return year + " " + title + " " + quality;
     }
 }
