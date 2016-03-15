@@ -10,6 +10,7 @@ public class LibraryFrame extends JFrame {
     private CategoryPanel unknownPanel;
 
     public LibraryFrame(int nrOfFilms, int nrOfMusic, int nrOfUnknown) {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         filmPanel = new CategoryPanel("Film", nrOfFilms,true);
         musicPanel = new CategoryPanel("Music", nrOfMusic,true);
         unknownPanel = new CategoryPanel("Unclassified", nrOfUnknown,false);
