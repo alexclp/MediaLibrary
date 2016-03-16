@@ -5,6 +5,8 @@ import alexmihnea.generator.MediaGenerator;
 import alexmihnea.model.Film;
 import alexmihnea.model.Item;
 import alexmihnea.model.Music;
+import alexmihnea.view.ItemPanel;
+import alexmihnea.view.LibraryFrame;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -12,11 +14,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Controller {
-    ArrayList<Media> mediaArrayList;
+    private ArrayList<Media> mediaArrayList;
+    private LibraryFrame frame;
+    private ArrayList<Film> films;
+    private ArrayList<Music> tracks;
+    private ArrayList<Item> unknown;
 
     public Controller() {
         mediaArrayList = MediaGenerator.getMedia("/resources/film");
+        films = new ArrayList<>();
+        tracks = new ArrayList<>();
+        unknown = new ArrayList<>();
         parseData();
+        constructView();
     }
 
 
@@ -43,18 +53,20 @@ public class Controller {
 
                 if (typeOfFile.equals("Film")) {
 
-                    Film film = new Film(fileTitle, media.getImage());
+                    Film film = new Film(fileTitle,media.getImage());
+                    films.add(film);
 
                 } else if (typeOfFile.equals("Music")) {
 
-                    Music music = new Music(fileTitle, media.getImage());
-
+                    Music music = new Music(fileTitle,media.getImage());
+                    tracks.add(music);
                 } else {
-
-                    Item item = new Item(fileName, media.getImage());
+                    Item item = new Item(fileName,media.getImage());
+                    unknown.add(item);
                 }
             }
         }
+
     }
 
     private String checkTypeOfFile(String extension) {
@@ -93,5 +105,23 @@ public class Controller {
         }
 
         return false;
+    }
+
+    private void constructView(){
+        frame = new LibraryFrame(films.size(),tracks.size(),unknown.size());
+        frame.setVisible(true);
+        frame.setSize(1000,1000);
+        for(Film film:films) {
+            ItemPanel item = new ItemPanel(film.getImage(),film.getTitle(),film.getYear()+" - " + film.getQuality());
+            frame.getFilmPanel().addElement(item);
+        }
+        for(Music track:tracks) {
+            ItemPanel item = new ItemPanel(track.getImage(),track.getSong(),track.getArtist());
+            frame.getMusicPanel().addElement(item);
+        }
+        for(Item unclassified:unknown) {
+            ItemPanel item = new ItemPanel(unclassified.getImage(),unclassified.getFileName(),"Unclassified");
+            frame.getUnknownPanel().addElement(item);
+        }
     }
 }
