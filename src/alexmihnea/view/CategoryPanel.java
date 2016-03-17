@@ -28,13 +28,16 @@ public class CategoryPanel extends JPanel {
         add(northPanel, BorderLayout.NORTH);
     }
 
+    public void clear(){
+        centerPanel.removeAll();
+    }
     public void addElement(ItemPanel panel) {
         centerPanel.add(panel);
     }
 
     public void setupComboBox(){
         sort = new JComboBox<>();
-        String NOT_SELECTABLE_OPTION = " Select a formation ";
+        String NOT_SELECTABLE_OPTION = " Sort by ";
         sort.setModel(new DefaultComboBoxModel<String>() {
             boolean selectionAllowed = true;
 
@@ -63,5 +66,7 @@ public class CategoryPanel extends JPanel {
         sort.addItem("Artist");
     }
 
-
+    public JComboBox<String> getSort() {
+        return sort;
+    }
 }

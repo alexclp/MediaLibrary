@@ -9,7 +9,11 @@ import alexmihnea.view.ItemPanel;
 import alexmihnea.view.LibraryFrame;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,7 +30,10 @@ public class Controller {
         tracks = new ArrayList<>();
         unknown = new ArrayList<>();
         parseData();
+        constructFrame();
         constructView();
+        sortFilm();
+        sortMusic();
     }
 
 
@@ -34,12 +41,13 @@ public class Controller {
 
         for (Media media : mediaArrayList) {
             String fileName = media.getName();
-            JLabel fileImage = media.getImage();
+            System.out.println(fileName);
 
-            Pattern extensionPattern = Pattern.compile("\\.(?<extension>[^\\d]+$)");
+            Pattern extensionPattern = Pattern.compile(".*\\.(?<extension>[^\\d]+$)");
             Matcher extensionMatcher = extensionPattern.matcher(fileName);
 
             if (extensionMatcher.find()) {
+                System.out.println(extensionMatcher.group("extension"));
 
                 String fileTitle = "";
                 String typeOfFile = checkTypeOfFile(extensionMatcher.group("extension"));
@@ -64,6 +72,10 @@ public class Controller {
                     Item item = new Item(fileName,media.getImage());
                     unknown.add(item);
                 }
+            }
+            else{
+                Item item = new Item(fileName,media.getImage());
+                unknown.add(item);
             }
         }
 
@@ -107,10 +119,128 @@ public class Controller {
         return false;
     }
 
-    private void constructView(){
+    private void constructFrame(){
         frame = new LibraryFrame(films.size(),tracks.size(),unknown.size());
         frame.setVisible(true);
         frame.setSize(1000,1000);
+    }
+
+    private void sortFilm(){
+        JComboBox<String> comboBox = frame.getFilmPanel().getSort();
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(comboBox.getSelectedItem().equals("Title")){
+                    films.sort(new Comparator<Film>() {
+                        @Override
+                        public int compare(Film o1, Film o2) {
+                            String o1name = o1.getTitle();
+                            String o2name = o2.getTitle();
+                            Pattern pattern = Pattern.compile("The\\s(?<name>.*)");
+                            Matcher matcher1 = pattern.matcher(o1.getTitle());
+                            Matcher matcher2 = pattern.matcher(o2.getTitle());
+                            if(matcher1.find())
+                                o1name = matcher1.group("name");
+                            if(matcher2.find())
+                                o2name = matcher2.group("name");
+                            if(o1name.equals(o2name))
+                                return 0;
+                            else if(o1name.compareTo(o2name) > 0)
+                                return 1;
+                            return -1;
+                        }
+                    });
+                }
+               else if(comboBox.getSelectedItem().equals("Release Year")){
+                    films.sort(new Comparator<Film>() {
+                        @Override
+                        public int compare(Film o1, Film o2) {
+                            if(o1.getYear().equals(o2.getYear()))
+                                return 0;
+                            else if(o1.getYear().compareTo(o2.getYear()) > 0)
+                                return -1;
+                            return 1;
+                        }
+                    });
+                }
+               else{
+                    films.sort(new Comparator<Film>() {
+                        @Override
+                        public int compare(Film o1, Film o2) {
+                            String quality1 = new String();
+                            String quality2 = new String();
+                            Pattern pattern = Pattern.compile("\\w\\w,\\s(?<quality>[\\d]{3,4})p");
+                            Matcher matcher1 = pattern.matcher(o1.getQuality());
+                            Matcher matcher2 = pattern.matcher(o2.getQuality());
+                            if(matcher1.find())
+                                quality1 = matcher1.group("quality");
+                            if(matcher2.find())
+                                quality2 = matcher2.group("quality");
+                            if(quality1.equals(quality2))
+                                return 0;
+                            else if(Integer.parseInt(quality1) > Integer.parseInt(quality2))
+                                return -1;
+                            return 1;
+                        }
+                    });
+                }
+                constructView();
+            }
+        });
+    }
+    private void sortMusic(){
+        JComboBox<String> comboBox = frame.getMusicPanel().getSort();
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(comboBox.getSelectedItem().equals("Track Name")) {
+                    tracks.sort(new Comparator<Music>() {
+                        @Override
+                        public int compare(Music o1, Music o2) {
+                            String o1song = o1.getSong();
+                            String o2song = o2.getSong();
+                            Pattern pattern = Pattern.compile("The\\s(?<name>.*)");
+                            Matcher matcher1 = pattern.matcher(o1.getSong());
+                            Matcher matcher2 = pattern.matcher(o2.getSong());
+                            if(matcher1.find())
+                                o1song = matcher1.group("name");
+                            if(matcher2.find())
+                                o2song = matcher2.group("name");
+                            if(o1song.equals(o2song))
+                                return 0;
+                            else if(o1song.compareTo(o2song) > 0)
+                                return 1;
+                            return -1;
+                        }
+                    });
+                }
+                else {
+                    tracks.sort(new Comparator<Music>() {
+                        @Override
+                        public int compare(Music o1, Music o2) {
+                            String o1artist = o1.getArtist();
+                            String o2artist = o2.getArtist();
+                            Pattern pattern = Pattern.compile("The\\s(?<name>.*)");
+                            Matcher matcher1 = pattern.matcher(o1.getArtist());
+                            Matcher matcher2 = pattern.matcher(o2.getArtist());
+                            if(matcher1.find())
+                                o1artist = matcher1.group("name");
+                            if(matcher2.find())
+                                o2artist = matcher2.group("name");
+                            if(o1artist.equals(o2artist))
+                                return 0;
+                            else if(o1artist.compareTo(o2artist) > 0)
+                                return 1;
+                            return -1;
+                        }
+                    });
+                }
+                constructView();
+            }
+        });
+    }
+    private void constructView(){
+        frame.empty();
         for(Film film:films) {
             ItemPanel item = new ItemPanel(film.getImage(),film.getTitle(),film.getYear()+" - " + film.getQuality());
             frame.getFilmPanel().addElement(item);
@@ -123,5 +253,6 @@ public class Controller {
             ItemPanel item = new ItemPanel(unclassified.getImage(),unclassified.getFileName(),"Unclassified");
             frame.getUnknownPanel().addElement(item);
         }
+        frame.reconstruct();
     }
 }

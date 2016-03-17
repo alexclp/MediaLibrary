@@ -34,4 +34,16 @@ public class LibraryFrame extends JFrame {
     public CategoryPanel getUnknownPanel() {
         return unknownPanel;
     }
+
+    public void empty(){
+        filmPanel.clear();
+        musicPanel.clear();
+        unknownPanel.clear();
+    }
+
+    public void reconstruct(){
+        filmPanel.revalidate();filmPanel.repaint();
+        musicPanel.revalidate();musicPanel.repaint();
+        unknownPanel.revalidate();unknownPanel.repaint();
+    }
 }

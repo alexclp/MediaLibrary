@@ -24,7 +24,7 @@ public class Music extends Item{
         }
     }
     public void extractArtist() {
-        Pattern pattern = Pattern.compile("^.*\\-\\s+(?<artist>[^\\.]+)\\.");
+        Pattern pattern = Pattern.compile("^.*\\-\\s+(?<artist>([^\\.]+\\.?)+)\\.$");
         Matcher matcher = pattern.matcher(fileName);
         if (matcher.find()) {
             artist = matcher.group("artist");
