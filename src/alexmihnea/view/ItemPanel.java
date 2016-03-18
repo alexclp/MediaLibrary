@@ -22,12 +22,12 @@ public class ItemPanel extends JPanel {
     }
 
     private void createPanel() {
-        add(image,BorderLayout.CENTER);
+        add(image, BorderLayout.CENTER);
         JPanel text = new JPanel();
-        text.setLayout(new GridLayout(2,1,5,5));
+        text.setLayout(new GridLayout(2, 1, 5, 5));
         text.add(itemName);
         text.add(itemsSubName);
-        add(text,BorderLayout.SOUTH);
+        add(text, BorderLayout.SOUTH);
     }
 
 

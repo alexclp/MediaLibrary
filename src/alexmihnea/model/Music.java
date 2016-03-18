@@ -10,7 +10,6 @@ public class Music extends Item {
 
     public Music(String fileName, JLabel image) {
         super(fileName, image);
-//        System.out.println("Filename: " + fileName);
         extractArtist();
         extractSong();
     }

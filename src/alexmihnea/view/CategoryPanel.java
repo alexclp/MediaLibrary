@@ -3,16 +3,13 @@ package alexmihnea.view;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by alexclp on 08/03/2016.
- */
 public class CategoryPanel extends JPanel {
 
     private JLabel title;
     private JPanel centerPanel;
     private JComboBox<String> sort;
 
-    public CategoryPanel(String category, int nrOfItems,boolean hasComboBox) {
+    public CategoryPanel(String category, int nrOfItems, boolean hasComboBox) {
         title = new JLabel(category);
         JPanel northPanel = new JPanel();
         northPanel.setLayout(new GridLayout(1, 2, 100, 10));
@@ -21,21 +18,22 @@ public class CategoryPanel extends JPanel {
         setLayout(new BorderLayout());
         centerPanel.setLayout(new GridLayout(1, nrOfItems, 10, 10));
         add(new JScrollPane(centerPanel), BorderLayout.CENTER);
-        if(hasComboBox){
+        if (hasComboBox) {
             setupComboBox();
             northPanel.add(sort);
         }
         add(northPanel, BorderLayout.NORTH);
     }
 
-    public void clear(){
+    public void clear() {
         centerPanel.removeAll();
     }
+
     public void addElement(ItemPanel panel) {
         centerPanel.add(panel);
     }
 
-    public void setupComboBox(){
+    public void setupComboBox() {
         sort = new JComboBox<>();
         String NOT_SELECTABLE_OPTION = " Sort by ";
         sort.setModel(new DefaultComboBoxModel<String>() {
@@ -55,13 +53,13 @@ public class CategoryPanel extends JPanel {
         sort.addItem(NOT_SELECTABLE_OPTION);
     }
 
-    public void sortFilm(){
+    public void sortFilm() {
         sort.addItem("Title");
         sort.addItem("Release Year");
         sort.addItem("Quality");
     }
 
-    public void sortMusic(){
+    public void sortMusic() {
         sort.addItem("Track Name");
         sort.addItem("Artist");
     }

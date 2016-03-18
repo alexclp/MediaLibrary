@@ -24,7 +24,7 @@ public class Controller {
     private ArrayList<Item> unknown;
 
     public Controller() {
-        mediaArrayList = MediaGenerator.getMedia("/resources/film");
+        mediaArrayList = MediaGenerator.getMedia();
         films = new ArrayList<>();
         tracks = new ArrayList<>();
         unknown = new ArrayList<>();

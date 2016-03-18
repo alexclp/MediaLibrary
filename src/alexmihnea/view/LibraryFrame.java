@@ -11,9 +11,9 @@ public class LibraryFrame extends JFrame {
 
     public LibraryFrame(int nrOfFilms, int nrOfMusic, int nrOfUnknown) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        filmPanel = new CategoryPanel("Film", nrOfFilms,true);
-        musicPanel = new CategoryPanel("Music", nrOfMusic,true);
-        unknownPanel = new CategoryPanel("Unclassified", nrOfUnknown,false);
+        filmPanel = new CategoryPanel("Film", nrOfFilms, true);
+        musicPanel = new CategoryPanel("Music", nrOfMusic, true);
+        unknownPanel = new CategoryPanel("Unclassified", nrOfUnknown, false);
         setLayout(new GridLayout(3, 1, 10, 10));
         add(filmPanel);
         add(musicPanel);
@@ -35,15 +35,18 @@ public class LibraryFrame extends JFrame {
         return unknownPanel;
     }
 
-    public void empty(){
+    public void empty() {
         filmPanel.clear();
         musicPanel.clear();
         unknownPanel.clear();
     }
 
-    public void reconstruct(){
-        filmPanel.revalidate();filmPanel.repaint();
-        musicPanel.revalidate();musicPanel.repaint();
-        unknownPanel.revalidate();unknownPanel.repaint();
+    public void reconstruct() {
+        filmPanel.revalidate();
+        filmPanel.repaint();
+        musicPanel.revalidate();
+        musicPanel.repaint();
+        unknownPanel.revalidate();
+        unknownPanel.repaint();
     }
 }
