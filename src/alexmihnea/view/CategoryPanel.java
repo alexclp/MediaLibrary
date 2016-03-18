@@ -3,11 +3,24 @@ package alexmihnea.view;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Subclass of JPanel for the sliding category panel.
+ */
+
 public class CategoryPanel extends JPanel {
 
     private JLabel title;
     private JPanel centerPanel;
-    private JComboBox<String> sort;
+    private JComboBox<String> sortComboBox;
+
+    /**
+     * Constructor for the CategoryPanel class.
+     * Creates a new category based on the category name, the number of items inside and a combo box for sorting (yes or no).
+     *
+     * @param category
+     * @param nrOfItems
+     * @param hasComboBox
+     */
 
     public CategoryPanel(String category, int nrOfItems, boolean hasComboBox) {
         title = new JLabel(category);
@@ -20,23 +33,37 @@ public class CategoryPanel extends JPanel {
         add(new JScrollPane(centerPanel), BorderLayout.CENTER);
         if (hasComboBox) {
             setupComboBox();
-            northPanel.add(sort);
+            northPanel.add(sortComboBox);
         }
         add(northPanel, BorderLayout.NORTH);
     }
+
+    /**
+     * Method to clear the content of the panel.
+     */
 
     public void clear() {
         centerPanel.removeAll();
     }
 
+    /**
+     * Method to add a new ItemPanel inside.
+     *
+     * @param panel
+     */
+
     public void addElement(ItemPanel panel) {
         centerPanel.add(panel);
     }
 
+    /**
+     * Method to setup the combo box used for selecting the sorting filter.
+     */
+
     public void setupComboBox() {
-        sort = new JComboBox<>();
+        sortComboBox = new JComboBox<>();
         String NOT_SELECTABLE_OPTION = " Sort by ";
-        sort.setModel(new DefaultComboBoxModel<String>() {
+        sortComboBox.setModel(new DefaultComboBoxModel<String>() {
             boolean selectionAllowed = true;
 
             @Override
@@ -50,21 +77,35 @@ public class CategoryPanel extends JPanel {
                 }
             }
         });
-        sort.addItem(NOT_SELECTABLE_OPTION);
+        sortComboBox.addItem(NOT_SELECTABLE_OPTION);
     }
 
-    public void sortFilm() {
-        sort.addItem("Title");
-        sort.addItem("Release Year");
-        sort.addItem("Quality");
+    /**
+     * Method to add options of sorting films to the combo box.
+     */
+
+    public void configureFilmSortComboBox() {
+        sortComboBox.addItem("Title");
+        sortComboBox.addItem("Release Year");
+        sortComboBox.addItem("Quality");
     }
 
-    public void sortMusic() {
-        sort.addItem("Track Name");
-        sort.addItem("Artist");
+    /**
+     * Method to add options of sorting music to the combo box.
+     */
+
+    public void configureMusicSortComboBox() {
+        sortComboBox.addItem("Track Name");
+        sortComboBox.addItem("Artist");
     }
 
-    public JComboBox<String> getSort() {
-        return sort;
+    /**
+     * Getter for the sorting options combo box.
+     *
+     * @return
+     */
+
+    public JComboBox<String> getSortComboBox() {
+        return sortComboBox;
     }
 }

@@ -16,12 +16,23 @@ import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Controller class.
+ * Deals with view updates, events and getting data from model.
+ */
+
 public class Controller {
     private ArrayList<Media> mediaArrayList;
     private LibraryFrame frame;
     private ArrayList<Film> films;
     private ArrayList<Music> tracks;
     private ArrayList<Item> unknown;
+
+    /**
+     * Constructor for the controller.
+     * Allocates memory for the arrays that hold the data and gets data from the generator.
+     * Calls functions to parse the data and creates the view widgets along with event listeners.
+     */
 
     public Controller() {
         mediaArrayList = MediaGenerator.getMedia();
@@ -31,10 +42,15 @@ public class Controller {
         parseData();
         constructFrame();
         constructView();
-        sortFilm();
-        sortMusic();
+        configureFilmSortComboBox();
+        configureMusicSortComboBox();
     }
 
+    /**
+     * Method to parse data received from the generator.
+     * Will firstly create a regular expression to detect the file type and will check it.
+     * Then it will check with another regular expression what the title is and will send it to the model.
+     */
 
     public void parseData() {
 
@@ -48,7 +64,7 @@ public class Controller {
                 String fileTitle = "";
                 String typeOfFile = checkTypeOfFile(extensionMatcher.group("extension"));
 
-                Pattern filePattern = Pattern.compile("^(?<name>[^\\.]+\\.)[^\\d]+$");
+                Pattern filePattern = Pattern.compile("^(?<name>.*)\\.(aiff|aac|aax|oog|wav|wma|flv|gif|mkv|mpeg|mpg|mov)$");
                 Matcher fileMatcher = filePattern.matcher(fileName);
 
                 if (fileMatcher.find()) {
@@ -62,15 +78,8 @@ public class Controller {
 
                 } else if (typeOfFile.equals("Music")) {
 
-                    Pattern musicFilePattern = Pattern.compile("^(?<name>.*)\\.(aiff|aac|aax|oog|wav|wma)$");
-                    Matcher musicFileMatcher = musicFilePattern.matcher(fileName);
-
-                    if (musicFileMatcher.find()) {
-                        String musicFileTitle = musicFileMatcher.group("name");
-
-                        Music music = new Music(musicFileTitle, media.getImage());
-                        tracks.add(music);
-                    }
+                    Music music = new Music(fileTitle, media.getImage());
+                    tracks.add(music);
 
                 } else {
                     Item item = new Item(fileName, media.getImage());
@@ -85,6 +94,13 @@ public class Controller {
 
     }
 
+    /**
+     * Method to check the file type give some known extensions.
+     *
+     * @param extension String of the file extension
+     * @return - String representation of the file type.
+     */
+
     private String checkTypeOfFile(String extension) {
         if (isFilm(extension)) {
             return "Film";
@@ -94,6 +110,13 @@ public class Controller {
             return "Unclassified";
         }
     }
+
+    /**
+     * Method that if the file is a film.
+     *
+     * @param extension String of the file extension
+     * @return boolean (true if it's a film and vice versa)
+     */
 
     private boolean isFilm(String extension) {
 
@@ -109,6 +132,13 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Method that if the file is a music file.
+     *
+     * @param extension String of the file extension
+     * @return boolean (true if it's a film and vice versa)
+     */
+
     private boolean isMusic(String extension) {
 
         if (extension.equals("aiff") ||
@@ -123,14 +153,23 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Method that creates the view's frame
+     */
+
     private void constructFrame() {
         frame = new LibraryFrame(films.size(), tracks.size(), unknown.size());
         frame.setVisible(true);
         frame.setSize(1000, 1000);
     }
 
-    private void sortFilm() {
-        JComboBox<String> comboBox = frame.getFilmPanel().getSort();
+    /**
+     * Method to create the view's combo box to deal with sorting.
+     * Will create an action listener for it and will sort the films.
+     */
+
+    private void configureFilmSortComboBox() {
+        JComboBox<String> comboBox = frame.getFilmPanel().getSortComboBox();
         comboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -191,8 +230,13 @@ public class Controller {
         });
     }
 
-    private void sortMusic() {
-        JComboBox<String> comboBox = frame.getMusicPanel().getSort();
+    /**
+     * Method to create the view's combo box to deal with sorting.
+     * Will create an action listener for it and will sort the music files.
+     */
+
+    private void configureMusicSortComboBox() {
+        JComboBox<String> comboBox = frame.getMusicPanel().getSortComboBox();
         comboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -241,6 +285,10 @@ public class Controller {
             }
         });
     }
+
+    /**
+     * Method to send the data to the view's panels.
+     */
 
     private void constructView() {
         frame.empty();
