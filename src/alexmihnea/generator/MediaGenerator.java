@@ -18,13 +18,13 @@ public final class MediaGenerator {
 	
 	public static ArrayList<Media> getMedia( boolean fromURL ) {
 		
-		return getMedia("resources", fromURL );
+		return getMedia("resources", fromURL);
 		
 	}
 	
 	public static ArrayList<Media> getMedia( String resourcesLocation ) {
 		
-		return getMedia("resources", false );
+		return getMedia(resourcesLocation, false);
 		
 	}
 	

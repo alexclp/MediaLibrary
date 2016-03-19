@@ -17,7 +17,7 @@ public class Media {
 	public Media( String name, String url, boolean fromURL ) {
 		
 		this.name = name;
-
+		
 		JLabel picture = new JLabel();
 		
 		try {
