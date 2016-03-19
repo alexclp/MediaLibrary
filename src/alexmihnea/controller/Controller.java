@@ -35,7 +35,7 @@ public class Controller {
      */
 
     public Controller() {
-        mediaArrayList = MediaGenerator.getMedia();
+        mediaArrayList = MediaGenerator.getMedia(true);
         films = new ArrayList<>();
         tracks = new ArrayList<>();
         unknown = new ArrayList<>();
